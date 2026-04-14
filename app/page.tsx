@@ -8,6 +8,7 @@ import { CTASection } from "@/components/cta-section"
 import { BlogPreview } from "@/components/blog-preview"
 import { Footer } from "@/components/footer"
 import { ScrollTracker } from "@/components/scroll-tracker"
+import { FeaturedIn } from "@/components/featured-in"
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <ScrollTracker />
       <Header />
       <Hero />
+      <FeaturedIn />
       <ImpactSection />
       <ProblemSections />
       <SolutionSection />

@@ -274,6 +274,71 @@ ScanVice makes systematic expense tracking effortless, protecting you from hidde
       role: "Editorial",
     },
   },
+  {
+    slug: "2026-03-05-launching-scanvice-revolutionizing-receipt-management",
+    title: "Launching ScanVice: Why We’re Building a Smarter Way to Handle Receipts",
+    excerpt: "On March 5, 2026, we launched ScanVice with a simple mission: eliminate the soul-crushing bureaucracy of manual receipt tracking. Here’s why we believe our approach is different — and better.",
+    content: `
+# Launching ScanVice: Why We’re Building a Smarter Way to Handle Receipts
+
+**March 5, 2026** — Today marks the official launch of ScanVice. After months of development, we’re incredibly excited to introduce a tool that finally makes expense tracking effortless, intelligent, and actually enjoyable.
+
+We didn’t build just another receipt scanner. We built something different — something better.
+
+## The Everyday Frustration We’re Solving
+
+Picture this: You finish a business lunch, the waiter brings the bill, and suddenly you’re faced with the familiar chore. Do you:
+
+- Squint at the tiny print and manually type every number, date, and item into a spreadsheet?
+- Take a quick photo and promise yourself you’ll “deal with it later” (which we all know means never)?
+
+Both options waste your most valuable resource: **time**.
+
+Why should you spend precious minutes typing numbers when technology can do it instantly and accurately? Why photograph a receipt just to forward a blurry image to your accountant, hoping they can decipher it?
+
+With ScanVice, you simply snap a photo — and that’s it. The AI instantly extracts all relevant data: amounts, dates, vendors, and even categories. You can share the structured information immediately, and you no longer need to keep the physical receipt. The digital record is permanent, searchable, and audit-ready.
+
+## Bureaucracy Is Eating Your Business Alive
+
+Here’s a surprising truth: even at innovative companies like Apple, the largest department isn’t software engineering, research & development, or testing.
+
+It’s **accounting**.
+
+Why? Because every company — from startups to global giants — must meticulously track, report, and document every single expense. Receipts, invoices, mileage, supplies… the list never ends.
+
+This administrative burden doesn’t just slow you down — it costs real money in lost productivity, missed deductions, and compliance headaches.
+
+We believe your time and your team’s time deserve better. You should be focusing on building your product, serving your customers, and growing your business — not playing detective with faded thermal paper receipts.
+
+## What Makes ScanVice Unique
+
+We’re not here to add another app to your phone. We’re here to fundamentally change how you interact with expenses:
+
+- **Instant intelligence**: AI that doesn’t just read text — it understands context and categorizes automatically.
+- **Zero friction**: From photo to processed expense in seconds.
+- **True paperless workflow**: Capture once, store forever, share effortlessly.
+- **Built for real life**: Works whether you’re a freelancer grabbing coffee or a growing team managing hundreds of transactions monthly.
+
+Because when the technology works seamlessly in the background, you stop thinking about receipts altogether.
+
+## Ready to Reclaim Your Time?
+
+We launched ScanVice because we’re convinced there’s a better way — one that respects your time, reduces bureaucracy, and lets you focus on what truly matters.
+
+If you’re tired of manual data entry, lost receipts, and endless admin work, you’re exactly who we built this for.
+
+---
+
+*Ready to experience the difference? [Try ScanVice for free today](#).*
+    `,
+    date: "2026-03-05",
+    readTime: "5 min read",
+    category: "Company News",
+    author: {
+      name: "ScanVice Team",
+      role: "Editorial",
+    },
+  },
 ]
 
 export function getAllPosts(): BlogPost[] {

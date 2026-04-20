@@ -3,7 +3,9 @@
 import { motion } from "framer-motion"
 import { ScanLine, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const SECTION = "cta_band"
 
 export function CTASection() {
   return (
@@ -49,20 +51,34 @@ export function CTASection() {
             </p>
 
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="group h-12 gap-2 bg-white px-6 text-primary hover:bg-white/90"
-                onClick={() => trackEvent("click", "cta", "scan_now_click")}
+                onClick={() =>
+                  track("cta_click", {
+                    cta_id: "scan_now",
+                    section: SECTION,
+                    cta_position: "primary",
+                    cta_label: "Scan Now",
+                  })
+                }
               >
                 <ScanLine className="h-5 w-5" />
                 Scan Now
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="h-12 border-white/30 px-6 text-white hover:bg-white/10"
-                onClick={() => trackEvent("click", "cta", "try_free_click")}
+                onClick={() =>
+                  track("cta_click", {
+                    cta_id: "try_it_free",
+                    section: SECTION,
+                    cta_position: "secondary",
+                    cta_label: "Try It Free",
+                  })
+                }
               >
                 Try It Free
               </Button>

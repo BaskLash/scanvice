@@ -4,16 +4,32 @@ import Link from "next/link"
 import { ScanLine, Menu, X } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const handleNav = (linkText: string, linkUrl: string) => {
+    track("nav_click", { link_text: linkText, link_url: linkUrl, section: "header" })
+  }
+
+  const handleCta = (ctaId: string) => {
+    track("cta_click", {
+      cta_id: ctaId,
+      section: "header",
+      cta_position: ctaId === "get_started" ? "primary" : "secondary",
+    })
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
+            onClick={() => handleNav("logo", "/")}
+          >
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
               <ScanLine className="h-5 w-5 text-primary" />
             </div>
@@ -23,35 +39,35 @@ export function Header() {
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
-            <Link 
-              href="#solution" 
+            <Link
+              href="#solution"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              onClick={() => trackEvent("click", "nav", "solution_link")}
+              onClick={() => handleNav("Solution", "#solution")}
             >
               Solution
             </Link>
-            <Link 
-              href="/blog" 
+            <Link
+              href="/blog"
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              onClick={() => trackEvent("click", "nav", "blog_link")}
+              onClick={() => handleNav("Blog", "/blog")}
             >
               Blog
             </Link>
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               className="text-muted-foreground hover:text-foreground"
-              onClick={() => trackEvent("click", "nav", "sign_in_click")}
+              onClick={() => handleCta("sign_in")}
             >
               Sign In
             </Button>
-            <Button 
+            <Button
               size="sm"
               className="bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={() => trackEvent("click", "nav", "get_started_click")}
+              onClick={() => handleCta("get_started")}
             >
               Get Started
             </Button>
@@ -59,7 +75,11 @@ export function Header() {
 
           <button
             className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => {
+              const next = !mobileMenuOpen
+              setMobileMenuOpen(next)
+              track("mobile_menu_toggle", { state: next ? "opened" : "closed", section: "header" })
+            }}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -68,38 +88,38 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="border-t border-border py-4 md:hidden">
             <nav className="flex flex-col gap-4">
-              <Link 
-                href="#solution" 
+              <Link
+                href="#solution"
                 className="text-sm text-muted-foreground"
                 onClick={() => {
-                  trackEvent("click", "nav", "solution_link_mobile")
+                  handleNav("Solution", "#solution")
                   setMobileMenuOpen(false)
                 }}
               >
                 Solution
               </Link>
-              <Link 
-                href="/blog" 
+              <Link
+                href="/blog"
                 className="text-sm text-muted-foreground"
                 onClick={() => {
-                  trackEvent("click", "nav", "blog_link_mobile")
+                  handleNav("Blog", "/blog")
                   setMobileMenuOpen(false)
                 }}
               >
                 Blog
               </Link>
               <div className="flex gap-3 pt-2">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="sm"
-                  onClick={() => trackEvent("click", "nav", "sign_in_click_mobile")}
+                  onClick={() => handleCta("sign_in")}
                 >
                   Sign In
                 </Button>
-                <Button 
+                <Button
                   size="sm"
                   className="bg-primary text-primary-foreground"
-                  onClick={() => trackEvent("click", "nav", "get_started_click_mobile")}
+                  onClick={() => handleCta("get_started")}
                 >
                   Get Started
                 </Button>

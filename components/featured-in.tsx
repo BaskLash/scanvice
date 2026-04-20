@@ -5,7 +5,17 @@ import { motion } from "framer-motion"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { ExternalLink } from "lucide-react"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const SECTION = "featured_in"
+
+function getDomain(url: string): string {
+  try {
+    return new URL(url).hostname
+  } catch {
+    return "unknown"
+  }
+}
 
 const featuredSites = [
   {
@@ -61,7 +71,14 @@ function FeaturedCard({ site }: { site: (typeof featuredSites)[number] }) {
       href={site.url}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => trackEvent("click", "featured_in", site.name)}
+      onClick={() =>
+        track("outbound_click", {
+          link_url: site.url,
+          link_domain: getDomain(site.url),
+          partner_name: site.name,
+          section: SECTION,
+        })
+      }
       className="group relative flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card/50 px-5 transition-all duration-300 hover:border-primary/30 hover:bg-card sm:h-24 sm:w-52"
     >
       <span className="font-sans text-lg font-semibold tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground sm:text-xl">
@@ -176,7 +193,14 @@ export function FeaturedIn() {
             {/* Navigation dots */}
             <div className="mt-6 flex items-center justify-center gap-3">
               <button
-                onClick={() => emblaApi?.scrollPrev()}
+                onClick={() => {
+                  emblaApi?.scrollPrev()
+                  track("carousel_interaction", {
+                    section: SECTION,
+                    direction: "prev",
+                    index: emblaApi?.selectedScrollSnap() ?? -1,
+                  })
+                }}
                 disabled={!canScrollPrev}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-border/50 text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground disabled:opacity-30"
                 aria-label="Previous"
@@ -187,7 +211,14 @@ export function FeaturedIn() {
                 Swipe to explore
               </span>
               <button
-                onClick={() => emblaApi?.scrollNext()}
+                onClick={() => {
+                  emblaApi?.scrollNext()
+                  track("carousel_interaction", {
+                    section: SECTION,
+                    direction: "next",
+                    index: emblaApi?.selectedScrollSnap() ?? -1,
+                  })
+                }}
                 disabled={!canScrollNext}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-border/50 text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground disabled:opacity-30"
                 aria-label="Next"

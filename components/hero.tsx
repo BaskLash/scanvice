@@ -4,7 +4,11 @@ import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, ScanLine, Upload, Camera, X, FileText, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024 // 10 MB
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "application/pdf"]
+const SECTION = "hero"
 
 export function Hero() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -12,41 +16,89 @@ export function Hero() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
+  const sourceRef = useRef<"upload" | "camera">("upload")
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      setSelectedFile(file)
-      trackEvent("click", "upload", "file_selected")
-      
-      // Create preview for images
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader()
-        reader.onload = (e) => setPreview(e.target?.result as string)
-        reader.readAsDataURL(file)
-      } else {
-        setPreview(null)
-      }
+    if (!file) return
+
+    const sizeKb = Math.round(file.size / 1024)
+    const source = sourceRef.current
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      track("file_rejected", { reason: "too_large", file_type: file.type, file_size_kb: sizeKb, source, section: SECTION })
+      return
+    }
+    if (file.type && !ALLOWED_TYPES.includes(file.type)) {
+      track("file_rejected", { reason: "unsupported_type", file_type: file.type, file_size_kb: sizeKb, source, section: SECTION })
+      return
+    }
+
+    setSelectedFile(file)
+    track("file_selected", {
+      source,
+      file_type: file.type || "unknown",
+      file_size_kb: sizeKb,
+      is_image: file.type.startsWith("image/"),
+      section: SECTION,
+    })
+
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader()
+      reader.onload = (ev) => setPreview(ev.target?.result as string)
+      reader.readAsDataURL(file)
+    } else {
+      setPreview(null)
     }
   }
 
   const handleAnalyze = async () => {
     if (!selectedFile) return
-    
+
+    const sizeKb = Math.round(selectedFile.size / 1024)
+    const source = sourceRef.current
+    const startedAt = performance.now()
+
     setIsAnalyzing(true)
-    trackEvent("click", "analyze", "receipt_analysis_started")
-    
-    // Simulate analysis - replace with actual API call
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsAnalyzing(false)
-    trackEvent("click", "analyze", "receipt_analysis_completed")
-    
-    // TODO: Handle analysis results
-    alert("Receipt analyzed! In production, this would show extracted data.")
+    track("analyze_started", {
+      file_type: selectedFile.type || "unknown",
+      file_size_kb: sizeKb,
+      source,
+      section: SECTION,
+    })
+
+    try {
+      // Simulate analysis - replace with actual API call
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      track("analyze_completed", {
+        duration_ms: Math.round(performance.now() - startedAt),
+        file_type: selectedFile.type || "unknown",
+        file_size_kb: sizeKb,
+        source,
+        section: SECTION,
+        success: true,
+      })
+
+      // TODO: Handle analysis results
+      alert("Receipt analyzed! In production, this would show extracted data.")
+    } catch (err) {
+      const error = err as Error
+      track("analyze_failed", {
+        duration_ms: Math.round(performance.now() - startedAt),
+        error_message: error?.message ?? "unknown",
+        file_type: selectedFile.type || "unknown",
+        file_size_kb: sizeKb,
+        source,
+        section: SECTION,
+      })
+    } finally {
+      setIsAnalyzing(false)
+    }
   }
 
   const clearFile = () => {
+    track("file_cleared", { source: sourceRef.current, had_preview: preview !== null, section: SECTION })
     setSelectedFile(null)
     setPreview(null)
     if (fileInputRef.current) fileInputRef.current.value = ""
@@ -158,24 +210,36 @@ export function Hero() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-                      <Button 
-                        size="lg" 
+                      <Button
+                        size="lg"
                         className="w-full sm:w-auto h-12 gap-2 bg-primary px-6 text-primary-foreground hover:bg-primary/90"
                         onClick={() => {
+                          sourceRef.current = "upload"
                           fileInputRef.current?.click()
-                          trackEvent("click", "cta", "upload_click")
+                          track("cta_click", {
+                            cta_id: "upload_receipt",
+                            section: SECTION,
+                            cta_position: "primary",
+                            cta_label: "Upload Receipt",
+                          })
                         }}
                       >
                         <Upload className="h-5 w-5" />
                         Upload Receipt
                       </Button>
-                      <Button 
-                        size="lg" 
-                        variant="outline" 
+                      <Button
+                        size="lg"
+                        variant="outline"
                         className="w-full sm:w-auto h-12 gap-2 border-border hover:bg-secondary"
                         onClick={() => {
+                          sourceRef.current = "camera"
                           cameraInputRef.current?.click()
-                          trackEvent("click", "cta", "camera_click")
+                          track("cta_click", {
+                            cta_id: "open_camera",
+                            section: SECTION,
+                            cta_position: "secondary",
+                            cta_label: "Open Camera",
+                          })
                         }}
                       >
                         <Camera className="h-5 w-5" />

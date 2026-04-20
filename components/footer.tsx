@@ -2,7 +2,9 @@
 
 import Link from "next/link"
 import { ScanLine } from "lucide-react"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const SECTION = "footer"
 
 const footerLinks = {
   product: [
@@ -51,10 +53,20 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={() => trackEvent("click", "footer", `${link.label.toLowerCase()}_link`)}
+                    onClick={(e) => {
+                      if (link.href === "#") {
+                        e.preventDefault()
+                        return
+                      }
+                      track("nav_click", {
+                        link_text: link.label,
+                        link_url: link.href,
+                        section: SECTION,
+                      })
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -69,10 +81,20 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={() => trackEvent("click", "footer", `${link.label.toLowerCase()}_link`)}
+                    onClick={(e) => {
+                      if (link.href === "#") {
+                        e.preventDefault()
+                        return
+                      }
+                      track("nav_click", {
+                        link_text: link.label,
+                        link_url: link.href,
+                        section: SECTION,
+                      })
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -87,10 +109,20 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={() => trackEvent("click", "footer", `${link.label.toLowerCase()}_link`)}
+                    onClick={(e) => {
+                      if (link.href === "#") {
+                        e.preventDefault()
+                        return
+                      }
+                      track("nav_click", {
+                        link_text: link.label,
+                        link_url: link.href,
+                        section: SECTION,
+                      })
+                    }}
                   >
                     {link.label}
                   </Link>

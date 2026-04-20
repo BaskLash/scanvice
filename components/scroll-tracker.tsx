@@ -1,29 +1,41 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
 
-export function ScrollTracker() {
-  const milestonesRef = useRef<Record<number, boolean>>({ 25: false, 50: false, 75: false, 100: false })
+const MILESTONES = [25, 50, 75, 100] as const
+
+interface ScrollTrackerProps {
+  context?: string
+}
+
+export function ScrollTracker({ context = "landing" }: ScrollTrackerProps) {
+  const fired = useRef<Record<number, boolean>>({ 25: false, 50: false, 75: false, 100: false })
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollPercent = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0
+    let ticking = false
 
-      const milestones = [25, 50, 75, 100]
-      milestones.forEach((milestone) => {
-        if (scrollPercent >= milestone && !milestonesRef.current[milestone]) {
-          milestonesRef.current[milestone] = true
-          trackEvent("scroll_depth", "engagement", `${milestone}%`, milestone)
+    const handleScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight
+        const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0
+
+        for (const milestone of MILESTONES) {
+          if (pct >= milestone && !fired.current[milestone]) {
+            fired.current[milestone] = true
+            track("scroll_depth", { percent: milestone, context })
+          }
         }
+        ticking = false
       })
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [context])
 
   return null
 }

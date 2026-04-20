@@ -1,32 +1,41 @@
 "use client"
 
+import { useRef } from "react"
 import { motion } from "framer-motion"
 import { ScanLine, Sparkles, FolderSearch, LineChart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const SECTION = "solution"
 
 const features = [
   {
+    id: "scan_instantly",
     icon: ScanLine,
     title: "Scan receipts instantly",
     description: "Point, capture, done. Your phone camera becomes a powerful scanner.",
   },
   {
+    id: "extract_data",
     icon: Sparkles,
     title: "Extract data automatically",
     description: "AI reads every line — vendor, date, items, totals. No typing required.",
   },
   {
+    id: "store_search",
     icon: FolderSearch,
     title: "Store & search securely",
     description: "Everything organized and searchable. Find any receipt in seconds.",
   },
   {
+    id: "expense_overview",
     icon: LineChart,
     title: "Real-time expense overview",
     description: "See where your money goes. Track spending patterns at a glance.",
   },
 ]
+
+const HOVER_THRESHOLD_MS = 500
 
 export function SolutionSection() {
   return (
@@ -53,26 +62,7 @@ export function SolutionSection() {
         {/* Feature grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group"
-            >
-              <div className="relative h-full rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                  <feature.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mb-2 font-sans text-lg font-semibold text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            </motion.div>
+            <FeatureCard key={feature.id} feature={feature} index={index} />
           ))}
         </div>
 
@@ -150,9 +140,16 @@ export function SolutionSection() {
                 <p className="mt-4 text-muted-foreground leading-relaxed">
                   ScanVice uses advanced AI to extract every detail from your receipts — even faded or crumpled ones. Your financial data becomes organized, searchable, and always accessible.
                 </p>
-                <Button 
+                <Button
                   className="mt-6 group gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-                  onClick={() => trackEvent("click", "cta", "try_it_free_click")}
+                  onClick={() =>
+                    track("cta_click", {
+                      cta_id: "try_it_free",
+                      section: SECTION,
+                      cta_position: "inline",
+                      cta_label: "Try It Free",
+                    })
+                  }
                 >
                   Try It Free
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -163,5 +160,72 @@ export function SolutionSection() {
         </motion.div>
       </div>
     </section>
+  )
+}
+
+interface FeatureCardProps {
+  feature: (typeof features)[number]
+  index: number
+}
+
+function FeatureCard({ feature, index }: FeatureCardProps) {
+  const viewedRef = useRef(false)
+  const hoverFiredRef = useRef(false)
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  const onViewportEnter = () => {
+    if (viewedRef.current) return
+    viewedRef.current = true
+    track("feature_card_view", {
+      section: SECTION,
+      feature_id: feature.id,
+      feature_index: index,
+    })
+  }
+
+  const onPointerEnter = () => {
+    if (hoverFiredRef.current) return
+    hoverTimerRef.current = setTimeout(() => {
+      hoverFiredRef.current = true
+      track("feature_card_hover", {
+        section: SECTION,
+        feature_id: feature.id,
+        feature_index: index,
+      })
+    }, HOVER_THRESHOLD_MS)
+  }
+
+  const onPointerLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = null
+    }
+  }
+
+  return (
+    <motion.div
+      ref={containerRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      onViewportEnter={onViewportEnter}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="group"
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
+    >
+      <div className="relative h-full rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+        <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+          <feature.icon className="h-5 w-5" />
+        </div>
+        <h3 className="mb-2 font-sans text-lg font-semibold text-foreground">
+          {feature.title}
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {feature.description}
+        </p>
+      </div>
+    </motion.div>
   )
 }

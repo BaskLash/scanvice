@@ -4,7 +4,9 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight, Calendar, Clock } from "lucide-react"
 import { getAllPosts } from "@/lib/blog"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
+
+const SECTION = "blog_preview"
 
 export function BlogPreview() {
   const posts = getAllPosts().slice(0, 3)
@@ -24,10 +26,16 @@ export function BlogPreview() {
               Latest insights
             </h2>
           </div>
-          <Link 
+          <Link
             href="/blog"
             className="hidden items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:flex"
-            onClick={() => trackEvent("click", "blog", "view_all_link")}
+            onClick={() =>
+              track("nav_click", {
+                link_text: "View all articles",
+                link_url: "/blog",
+                section: SECTION,
+              })
+            }
           >
             View all articles
             <ArrowRight className="h-4 w-4" />
@@ -43,10 +51,17 @@ export function BlogPreview() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              <Link 
+              <Link
                 href={`/blog/${post.slug}`}
                 className="group block h-full"
-                onClick={() => trackEvent("click", "blog", `blog_card_${post.slug}`)}
+                onClick={() =>
+                  track("blog_card_click", {
+                    section: SECTION,
+                    slug: post.slug,
+                    category: post.category,
+                    position: index,
+                  })
+                }
               >
                 <div className="flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                   <div className="mb-4 flex items-center gap-3">
@@ -84,10 +99,16 @@ export function BlogPreview() {
         </div>
 
         <div className="mt-8 text-center sm:hidden">
-          <Link 
+          <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm font-medium text-primary"
-            onClick={() => trackEvent("click", "blog", "view_all_link_mobile")}
+            onClick={() =>
+              track("nav_click", {
+                link_text: "View all articles",
+                link_url: "/blog",
+                section: SECTION,
+              })
+            }
           >
             View all articles
             <ArrowRight className="h-4 w-4" />

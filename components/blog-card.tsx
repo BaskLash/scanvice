@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Calendar, Clock, ArrowRight } from "lucide-react"
 import { BlogPost } from "@/lib/blog"
-import { trackEvent } from "@/lib/analytics"
+import { track } from "@/lib/analytics"
 
 interface BlogCardProps {
   post: BlogPost
@@ -12,10 +12,16 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <article>
-      <Link 
+      <Link
         href={`/blog/${post.slug}`}
         className="group block"
-        onClick={() => trackEvent("click", "blog", `blog_list_${post.slug}`)}
+        onClick={() =>
+          track("blog_card_click", {
+            section: "blog_list",
+            slug: post.slug,
+            category: post.category,
+          })
+        }
       >
         <div className="rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 sm:p-8">
           <div className="flex flex-wrap items-center gap-3 mb-4">

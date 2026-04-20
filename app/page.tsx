@@ -9,20 +9,23 @@ import { BlogPreview } from "@/components/blog-preview"
 import { Footer } from "@/components/footer"
 import { ScrollTracker } from "@/components/scroll-tracker"
 import { FeaturedIn } from "@/components/featured-in"
+import { SectionTracker } from "@/components/section-tracker"
+import { EngagementTracker } from "@/components/engagement-tracker"
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <ScrollTracker />
+      <ScrollTracker context="landing" />
+      <EngagementTracker />
       <Header />
-      <Hero />
-      <FeaturedIn />
-      <ImpactSection />
-      <ProblemSections />
-      <SolutionSection />
-      <TrustSection />
-      <CTASection />
-      <BlogPreview />
+      <SectionTracker id="hero"><Hero /></SectionTracker>
+      <SectionTracker id="featured_in"><FeaturedIn /></SectionTracker>
+      <SectionTracker id="impact"><ImpactSection /></SectionTracker>
+      <SectionTracker id="problem"><ProblemSections /></SectionTracker>
+      <SectionTracker id="solution"><SolutionSection /></SectionTracker>
+      <SectionTracker id="trust"><TrustSection /></SectionTracker>
+      <SectionTracker id="cta_band"><CTASection /></SectionTracker>
+      <SectionTracker id="blog_preview"><BlogPreview /></SectionTracker>
       <Footer />
     </main>
   )

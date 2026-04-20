@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Syne, DM_Mono } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const syne = Syne({ 
@@ -50,6 +51,7 @@ export default function RootLayout({
       <body className="font-mono antialiased">
         {children}
         {gaId && <GoogleAnalytics gaId={gaId} />}
+        <Analytics />
       </body>
     </html>
   )

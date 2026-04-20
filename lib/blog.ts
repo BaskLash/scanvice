@@ -14,6 +14,112 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "2026-04-20-implementing-ga4-analytics-for-better-product-decisions",
+    title: "Implementing a Clean GA4 Analytics System: How We Built Reliable Data Tracking for Smarter Product Decisions",
+    excerpt: "Tired of messy analytics and unreliable data? Learn how we refactored our entire analytics setup to a modern, GA4-native event structure — and why it matters for making confident product decisions.",
+    content: `
+# Implementing a Clean GA4 Analytics System: How We Built Reliable Data Tracking for Smarter Product Decisions
+
+**April 20, 2026** — After conducting a thorough audit of our existing analytics implementation, we decided it was time for a complete overhaul. The goal? Replace fragmented, inconsistent tracking with a clean, scalable, and GA4-native system that finally lets us make truly data-driven product decisions.
+
+If you're building a SaaS product, you already know how critical reliable analytics are. Poor tracking leads to guesswork, missed opportunities, and flawed decisions. Today, we're sharing exactly how we implemented a modern analytics architecture across our codebase.
+
+## Why We Needed to Change Our Analytics Setup
+
+Our old analytics system relied on a generic \`trackEvent(action, category, label, value)\` pattern. While it worked initially, it quickly became problematic:
+
+- Inconsistent event naming across components
+- Overly complex parameter handling
+- Duplicate events (especially page views)
+- No clear funnel visibility
+- Difficulty distinguishing mobile vs. desktop behavior
+- Limited ability to reconstruct full user journeys
+
+The result? Data that was hard to trust and even harder to act on.
+
+## The New GA4-Native Approach
+
+We refactored everything to follow Google's recommended GA4 event structure: clean event names combined with rich, structured parameters.
+
+### Key Changes Made
+
+1. **Refactored the core analytics library**  
+   Updated \`lib/analytics.ts\` to use a simple, flexible \`track(eventName, params)\` method that maps directly to GA4's recommended event model.
+
+2. **Standardized event taxonomy**  
+   All events now follow consistent naming conventions (e.g., \`section_view\`, \`cta_click\`, \`analyze_completed\`).
+
+3. **Replaced legacy calls**  
+   Updated every \`trackEvent()\` usage in components like Header, Hero, CTA sections, FeaturedIn, BlogPreview, and Footer to the new standardized approach.
+
+4. **Added comprehensive funnel tracking**  
+   - \`file_selected\`
+   - \`analyze_started\`
+   - \`analyze_completed\`
+   - \`analyze_failed\`
+
+5. **Introduced critical missing events**
+   - \`section_view\` powered by a reusable IntersectionObserver-based \`SectionTracker\` component
+   - \`outbound_click\` with full URL and domain tracking
+   - \`feature_card_view\` and \`feature_card_hover\`
+   - \`engagement_time\` for session summaries
+   - Robust error tracking for file rejections and API failures
+
+## How We Kept Implementation Clean and Minimal
+
+We followed strict guidelines during the refactor:
+- Only modified what was necessary
+- Avoided large-scale rewrites
+- Showed clear before/after patterns for changed functions
+- Created a reusable \`SectionTracker\` component for consistent section visibility tracking
+- Ensured mobile and desktop differences are handled via parameters (not separate events)
+
+The end result is a clean, maintainable analytics layer that works seamlessly across the entire application and is production-ready.
+
+## Full Funnel Visibility at Last
+
+With the new system in place, we can now clearly see:
+
+- Where users drop off in the upload and analysis process
+- Which sections and features generate the most engagement
+- How different CTAs perform depending on position and device
+- Real demand signals from feature interactions
+- Exact points where users encounter friction or errors
+
+This level of insight transforms how we prioritize development and optimize the user experience.
+
+## Setting Up GA4 for Maximum Value
+
+To get the most out of the new events:
+
+- **Configure custom dimensions** in GA4 for parameters like \`section\`, \`cta_id\`, \`cta_position\`, and \`device\`
+- **Mark key events as conversions** (e.g., \`analyze_completed\`)
+- **Use DebugView** during testing to verify events fire correctly with all parameters
+- **Create custom explorations** and funnels in the GA4 interface
+
+Once configured, you'll be able to reconstruct complete user journeys and measure drop-off rates with confidence.
+
+## The Impact on Product Decisions
+
+Reliable analytics change everything. Instead of debating what users might want, we can now see exactly how they behave. We can identify which features drive real interest, where friction exists in the funnel, and which changes actually move the needle.
+
+This implementation gives our team the foundation to build faster, smarter, and with much higher confidence.
+
+---
+
+*Want to experience the same level of intelligent automation in your receipt and expense tracking?*  
+
+**Ready to stop wasting time on manual processes? [Try ScanVice free today](#).**
+    `,
+    date: "2026-04-20",
+    readTime: "6 min read",
+    category: "Product Development",
+    author: {
+      name: "ScanVice Team",
+      role: "Editorial",
+    },
+  },
+  {
     slug: "why-manual-receipt-tracking-costs-time-money",
     title: "Why Manual Receipt Tracking Is Costing You Time and Money",
     excerpt: "The hidden costs of paper receipts and spreadsheets are eating into your productivity. Here's what you're really paying for manual expense tracking.",

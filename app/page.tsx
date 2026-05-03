@@ -11,12 +11,14 @@ import { ScrollTracker } from "@/components/scroll-tracker"
 import { FeaturedIn } from "@/components/featured-in"
 import { SectionTracker } from "@/components/section-tracker"
 import { EngagementTracker } from "@/components/engagement-tracker"
+import { ScanwiseSessionTracker } from "@/components/scanwise-session-tracker"
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       <ScrollTracker context="landing" />
       <EngagementTracker />
+      <ScanwiseSessionTracker />
       <Header />
       <SectionTracker id="hero"><Hero /></SectionTracker>
       <SectionTracker id="featured_in"><FeaturedIn /></SectionTracker>

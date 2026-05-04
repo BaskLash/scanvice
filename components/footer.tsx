@@ -6,31 +6,72 @@ import { track } from "@/lib/analytics"
 
 const SECTION = "footer"
 
-const footerLinks = {
-  product: [
-    { label: "Features", href: "#solution" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Blog", href: "/blog" },
-  ],
-  company: [
-    { label: "About", href: "#" },
-    { label: "Contact", href: "#" },
-    { label: "Careers", href: "#" },
-  ],
-  legal: [
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
+const footerSections = [
+  {
+    title: "Product",
+    links: [
+      { label: "Features", href: "#solution" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "#" },
+      { label: "Contact", href: "#" },
+      { label: "Careers", href: "#" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy", href: "#" },
+      { label: "Terms", href: "#" },
+      { label: "Cookies", href: "#" },
+    ],
+  },
+  {
+    title: "Contact",
+    links: [
+      { label: "business.promptin@gmail.com", href: "mailto:business.promptin@gmail.com" },
+    ],
+  },
+]
+
+function FooterLink({ label, href }: { label: string; href: string }) {
+  return (
+    <Link
+      href={href}
+      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+      onClick={(e) => {
+        if (href === "#") {
+          e.preventDefault()
+          return
+        }
+
+        track("nav_click", {
+          link_text: label,
+          link_url: href,
+          section: SECTION,
+        })
+      }}
+    >
+      {label}
+    </Link>
+  )
 }
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        
+        {/* Top grid */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
+          
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div>
             <Link href="/" className="flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
                 <ScanLine className="h-5 w-5 text-primary" />
@@ -39,97 +80,32 @@ export function Footer() {
                 Scan<span className="text-primary">Vice</span>
               </span>
             </Link>
+
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
               AI-powered receipt analyzer. Capture, organize, and understand your expenses instantly.
             </p>
+
             <p className="mt-4 text-xs text-muted-foreground">
               Made in Switzerland
             </p>
           </div>
 
-          {/* Product links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">Product</h3>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={(e) => {
-                      if (link.href === "#") {
-                        e.preventDefault()
-                        return
-                      }
-                      track("nav_click", {
-                        link_text: link.label,
-                        link_url: link.href,
-                        section: SECTION,
-                      })
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Dynamic sections */}
+          {footerSections.map((section) => (
+            <div key={section.title}>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">
+                {section.title}
+              </h3>
 
-          {/* Company links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={(e) => {
-                      if (link.href === "#") {
-                        e.preventDefault()
-                        return
-                      }
-                      track("nav_click", {
-                        link_text: link.label,
-                        link_url: link.href,
-                        section: SECTION,
-                      })
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">Legal</h3>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    onClick={(e) => {
-                      if (link.href === "#") {
-                        e.preventDefault()
-                        return
-                      }
-                      track("nav_click", {
-                        link_text: link.label,
-                        link_url: link.href,
-                        section: SECTION,
-                      })
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink {...link} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* Bottom bar */}
@@ -137,9 +113,11 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} ScanVice. All rights reserved.
           </p>
+
           <div className="flex items-center gap-4">
-            <Link 
-              href="#" 
+            {/* Twitter */}
+            <Link
+              href="#"
               className="text-muted-foreground transition-colors hover:text-foreground"
               aria-label="Twitter"
             >
@@ -147,8 +125,10 @@ export function Footer() {
                 <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
               </svg>
             </Link>
-            <Link 
-              href="#" 
+
+            {/* LinkedIn */}
+            <Link
+              href="#"
               className="text-muted-foreground transition-colors hover:text-foreground"
               aria-label="LinkedIn"
             >

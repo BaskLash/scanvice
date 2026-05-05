@@ -85,6 +85,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
+  body {
+    /* Final safety net: never allow sideways scroll on mobile.
+       `clip` (vs. hidden) preserves position: sticky on inner content. */
+    overflow-x: clip;
+    max-width: 100%;
+  }
   body {
     @apply bg-background text-foreground;
   }

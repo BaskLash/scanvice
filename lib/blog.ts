@@ -14,6 +14,124 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+      slug: "2026-05-05-fixing-mobile-responsiveness-user-engagement",
+  title: "How Fixing Mobile Responsiveness Can Unlock Real User Engagement",
+  excerpt: "Struggling with website traffic but low engagement? Here's how fixing mobile responsiveness issues can turn passive visitors into active users.",
+  content: `
+# How Fixing Mobile Responsiveness Can Unlock Real User Engagement
+
+**May 5, 2026** — Getting users to visit your website is only half the battle. The real challenge? Turning those visitors into actual users.
+
+Recently, we faced a critical issue that may have been holding us back more than we initially realized: poor mobile responsiveness.
+
+## The Problem: Traffic Without Engagement
+
+At first glance, things didn’t look too bad. We had traffic coming in. People were visiting the site.
+
+But something wasn’t adding up.
+
+Users weren’t engaging.  
+They weren’t completing actions.  
+They weren’t really *using* the product.
+
+That’s when we took a closer look — and found a major usability issue.
+
+## The Hidden UX Killer: Horizontal Overflow
+
+Our website had a horizontal overflow (\\\`overflow-x\\\`) problem.
+
+On mobile devices, this caused:
+- Layout elements to shift unexpectedly  
+- Content to extend beyond the screen  
+- A frustrating scrolling experience  
+
+In simple terms: the site didn’t feel right on mobile.
+
+And when something feels off, users leave.
+
+## Why Mobile Responsiveness Matters More Than Ever
+
+Today, a significant portion of web traffic comes from mobile devices. If your site isn’t optimized for smaller screens, you’re losing users before they even get started.
+
+Poor responsiveness leads to:
+- Higher bounce rates  
+- Lower interaction rates  
+- Reduced trust in your product  
+
+Even small UI issues can have a massive impact on user behavior.
+
+## Our Approach: Fix the Foundation First
+
+Instead of applying quick patches, we decided to address the issue properly.
+
+We focused on:
+- Eliminating horizontal overflow across all pages  
+- Ensuring layouts adapt cleanly to different screen sizes  
+- Improving overall mobile usability and flow  
+
+This wasn’t just a visual fix — it was a usability upgrade.
+
+## What We Expect to Happen Next
+
+Based on these improvements, we anticipate:
+
+- Increased user interaction  
+- Better retention on mobile devices  
+- More users actually completing key actions  
+
+In short: turning passive visitors into active users.
+
+But here’s the honest part:
+
+We don’t *know* yet.
+
+## The Reality of Product Development
+
+Every change you make as a product builder is a hypothesis.
+
+You improve something, and you expect a better outcome — but until real users interact with it, it remains an assumption.
+
+That’s exactly where we are right now.
+
+We’ve made meaningful improvements.  
+We believe they matter.  
+Now we wait for the data.
+
+## Why This Matters for You
+
+If you're building a product, this is a crucial lesson:
+
+**Traffic alone means nothing without usability.**
+
+You can invest in marketing, SEO, and growth — but if your user experience is broken, users won’t stay.
+
+Sometimes, the biggest growth unlock isn’t more traffic.
+
+It’s fixing what’s already there.
+
+## Final Thoughts
+
+Improving mobile responsiveness might seem like a small technical detail — but in reality, it can define whether your product succeeds or fails.
+
+We’ve taken a step toward a better user experience.
+
+Now we’ll see what impact it truly has.
+
+---
+
+*Want to experience a smoother, mobile-friendly workflow for managing your expenses?*  
+
+**Try ScanVice today and see how effortless modern expense tracking can be.**
+  `,
+  date: "2026-05-05",
+  readTime: "4 min read",
+  category: "Product Development",
+  author: {
+    name: "ScanVice Team",
+    role: "Editorial",
+  },
+},
+  {
       slug: "2026-05-03-digitizing-receipts-guide",
   title: "The Ultimate Guide to Digitizing Receipts (and Why It Matters More Than Ever)",
   excerpt: "Still managing paper receipts? Learn how to digitize receipts the right way, reduce errors, stay audit-ready, and save hours every month with modern tools like ScanVice.",

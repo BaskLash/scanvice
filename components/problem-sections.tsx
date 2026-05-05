@@ -32,9 +32,9 @@ const problems = [
 
 export function ProblemSections() {
   return (
-    <section className="relative py-24 sm:py-32">
+    <section className="relative overflow-hidden py-24 sm:py-32">
       {/* Background accent */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-0 top-1/4 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-destructive/3 blur-3xl" />
         <div className="absolute right-0 bottom-1/4 h-[600px] w-[600px] translate-x-1/2 rounded-full bg-primary/3 blur-3xl" />
       </div>

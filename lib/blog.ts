@@ -14,6 +14,120 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+  slug: "2026-05-12-content-marketing-growth-strategy",
+  title: "How Consistent Content Creation Became One of Our Biggest Growth Drivers",
+  excerpt: "We started noticing a clear pattern: consistent blog content wasn’t just improving visibility — it was generating meaningful traffic and increasing awareness around our product.",
+  content: `
+# How Consistent Content Creation Became One of Our Biggest Growth Drivers
+
+**May 12, 2026** — One of the most interesting discoveries we’ve made recently is how powerful consistent content creation can be for product growth.
+
+At first, our blog was simply a way to document progress, share ideas, and communicate transparently about what we were building.
+
+But over time, something became increasingly clear:
+
+The blog itself started becoming a major traffic driver.
+
+## Recognizing the Pattern
+
+As we continued publishing articles regularly, we noticed a repeating pattern:
+
+- More pages were being indexed
+- Organic visibility started improving
+- Users were discovering us through search
+- Traffic gradually increased over time
+
+What initially felt like “just writing updates” slowly evolved into something much more strategic.
+
+We realized that valuable, consistent content creates momentum.
+
+## Why Blog Content Still Works
+
+In a world full of short-form content and endless social media feeds, long-form blog articles still offer something incredibly valuable:
+
+### Search Visibility
+
+Well-structured articles help users discover solutions exactly when they’re searching for them.
+
+Instead of interrupting users with ads, content marketing allows people to find you naturally.
+
+### Trust and Authority
+
+Educational and transparent content builds credibility.
+
+When users repeatedly encounter useful articles from the same platform, trust grows organically over time.
+
+### Long-Term Traffic
+
+Unlike short-lived campaigns, SEO-focused blog content compounds.
+
+A single high-quality article can continue generating traffic weeks, months, or even years later.
+
+## From Random Posting to Intentional Strategy
+
+Initially, we didn’t fully understand how impactful blogging could become.
+
+But after observing the results, we started approaching content much more intentionally.
+
+We began focusing on:
+- SEO optimization  
+- Clear article structures  
+- Helpful, searchable topics  
+- Real product and development insights  
+
+The goal isn’t just to publish content.
+
+It’s to create articles people genuinely want to read and search engines genuinely want to rank.
+
+## The Compound Effect of Consistency
+
+One blog post alone rarely changes everything.
+
+But dozens of useful articles create a network of discoverability.
+
+Over time:
+- More keywords rank
+- More users discover the platform
+- More trust is established
+- More opportunities for conversion emerge
+
+This is where consistent publishing becomes powerful.
+
+## What We’re Learning
+
+Perhaps the biggest lesson is this:
+
+Growth rarely comes from one single breakthrough.
+
+More often, it comes from repeated small actions that compound over time.
+
+For us, content creation has become one of those compounding systems.
+
+And while we’re still early in the journey, we can already see how valuable consistent blogging can be for long-term growth.
+
+## Final Thoughts
+
+Creating useful content is no longer just a side activity for us.
+
+It has become part of the foundation of how we grow, communicate, and connect with users.
+
+And we’re only getting started.
+
+---
+
+*Want to see what we’re building while discovering smarter ways to manage expenses and receipts?*  
+
+**Try ScanVice today and experience modern expense management built for the digital era.**
+  `,
+  date: "2026-05-12",
+  readTime: "5 min read",
+  category: "Marketing",
+  author: {
+    name: "ScanVice Team",
+    role: "Editorial",
+  },
+},
+  {
       slug: "2026-05-05-fixing-mobile-responsiveness-user-engagement",
   title: "How Fixing Mobile Responsiveness Can Unlock Real User Engagement",
   excerpt: "Struggling with website traffic but low engagement? Here's how fixing mobile responsiveness issues can turn passive visitors into active users.",

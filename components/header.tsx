@@ -53,6 +53,13 @@ export function Header() {
             >
               Blog
             </Link>
+            <Link
+              href="/contact"
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              onClick={() => handleNav("Contact", "/contact")}
+            >
+              Contact
+            </Link>
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -107,6 +114,16 @@ export function Header() {
                 }}
               >
                 Blog
+              </Link>
+              <Link
+                href="/contact"
+                className="text-sm text-muted-foreground"
+                onClick={() => {
+                  handleNav("Contact", "/contact")
+                  setMobileMenuOpen(false)
+                }}
+              >
+                Contact
               </Link>
               <div className="flex gap-3 pt-2">
                 <Button
